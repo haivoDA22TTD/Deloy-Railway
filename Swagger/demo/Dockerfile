@@ -1,12 +1,14 @@
-# Giai đoạn build với Maven + Java 21
+# Giai đoạn build: sử dụng Maven để build ứng dụng
 FROM maven:3.9.6-eclipse-temurin-21 AS build
-
 WORKDIR /app
-COPY Swagger/demo/ /app
-RUN mvn clean package -DskipTests
+COPY . /app
+RUN mvn clean package
 
-# Giai đoạn chạy với JDK 21
+# Giai đoạn chạy: Chạy ứng dụng với JDK 21
 FROM eclipse-temurin:21.0.2_13-jdk AS run
 WORKDIR /app
-COPY --from=build /app/target/demo.jar /app/demo.jar
+
+# Sao chép tệp .jar.original từ thư mục target trong swagger/demo
+COPY swagger/demo/target/demo-0.0.1-SNAPSHOT.jar.original /app/demo.jar
+
 CMD ["java", "-jar", "demo.jar"]
