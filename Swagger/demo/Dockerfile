@@ -8,7 +8,7 @@ RUN mvn clean package
 FROM eclipse-temurin:21.0.2_13-jdk AS run
 WORKDIR /app
 
-# Sao chép tệp .jar.original từ thư mục target trong swagger/demo
+# Sao chép tệp demo-0.0.1-SNAPSHOT.jar.original vào thư mục /app trong container
 COPY swagger/demo/target/demo-0.0.1-SNAPSHOT.jar.original /app/demo.jar
 
 CMD ["java", "-jar", "demo.jar"]
