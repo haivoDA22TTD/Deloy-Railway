@@ -1,13 +1,14 @@
-# Build stage: Maven + JDK 17 (Eclipse Temurin)
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+# Giai đoạn build: Maven + Java 21
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+
 WORKDIR /app
 COPY Swagger/demo/ /app
 RUN mvn clean package -DskipTests
 
-# Run stage: JDK 17 slim
-FROM openjdk:17-jdk-slim
+# Giai đoạn chạy: Java 21
+FROM eclipse-temurin:21-jdk-slim AS run
 WORKDIR /app
-COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar demo.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "demo.jar"]
+COPY --from=build /app/target/demo.jar /app/demo.jar
+CMD ["java", "-jar", "demo.jar"]
+
 
