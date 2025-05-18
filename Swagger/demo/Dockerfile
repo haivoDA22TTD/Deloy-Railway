@@ -1,5 +1,5 @@
-# Build stage: Maven with OpenJDK 17
-FROM maven:3.9.6-openjdk-17 AS build
+# Build stage: Maven + JDK 17 (Eclipse Temurin)
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
